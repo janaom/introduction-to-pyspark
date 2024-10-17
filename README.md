@@ -1,4 +1,4 @@
-# Introduction to PySpark
+# ✨ Introduction to PySpark
 This repository serves as a comprehensive guide to PySpark, featuring theory and exercises sourced from [DataCamp](https://app.datacamp.com/learn/courses/introduction-to-pyspark). It is designed for beginners looking to understand the fundamentals of PySpark and its applications in big data processing. Here, you'll find detailed explanations, practical examples, and hands-on exercises to reinforce your learning. Whether you're just starting out or looking to enhance your skills, this repo provides valuable resources to help you master PySpark.
 
 ------
