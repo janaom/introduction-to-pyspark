@@ -824,3 +824,7 @@ print(flights_with_airports.show())
 | BUR|2014|    6|  5|    1733|      -12|    1945|      -10|     OO| N215AG|  3488|   PDX|     111|     817|  17|    33|            Bob Hope|34.200667|-118.358667| 778| -8|  A|
 +----+----+-----+---+--------+---------+--------+---------+-------+-------+------+------+--------+--------+----+------+--------------------+---------+-----------+----+---+---+
 only showing top 20 rows
+
+# Getting started with machine learning pipelines
+
+PySpark has built-in, cutting-edge machine learning routines, along with utilities to create full machine learning pipelines. 
