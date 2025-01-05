@@ -1,6 +1,14 @@
 # ✨ Introduction to PySpark
 This repository serves as a comprehensive guide to PySpark, featuring theory and exercises sourced from [DataCamp](https://app.datacamp.com/learn/courses/introduction-to-pyspark). It is designed for beginners looking to understand the fundamentals of PySpark and its applications in big data processing. Here, you'll find detailed explanations, practical examples, and hands-on exercises to reinforce your learning. Whether you're just starting out or looking to enhance your skills, this repo provides valuable resources to help you master PySpark.
 
+✅ [Getting to know PySpark](https://github.com/janaom/introduction-to-pyspark/blob/main/README.md#getting-to-know-pyspark)
+
+✅ [Manipulating data](https://github.com/janaom/introduction-to-pyspark/blob/main/README.md#manipulating-data)
+
+✅ [Getting started with machine learning pipelines](https://github.com/janaom/introduction-to-pyspark/blob/main/README.md#getting-started-with-machine-learning-pipelines)
+
+✅ [Model tuning and selection](https://github.com/janaom/introduction-to-pyspark/blob/main/README.md#model-tuning-and-selection)
+
 ------
 
 # Getting to know PySpark
