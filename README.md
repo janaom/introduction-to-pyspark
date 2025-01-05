@@ -1066,3 +1066,85 @@ dest_indexer = StringIndexer(inputCol="dest", outputCol="dest_index")
 dest_encoder = OneHotEncoder(inputCol="dest_index", outputCol="dest_fact")
 ```
 
+## Assemble a vector
+
+The last step in the `Pipeline` is to combine all of the columns containing our features into a single column. This has to be done before modeling can take place because every Spark modeling routine expects the data to be in this form. You can do this by storing each of the values from a column as an entry in a vector. Then, from the model's point of view, every observation is a vector that contains all of the information about it and a label that tells the modeler what value that observation corresponds to.
+
+Because of this, the `pyspark.ml.feature` submodule contains a class called `VectorAssembler`. This `Transformer` takes all of the columns you specify and combines them into a new vector column.
+
+### Instructions
+
+- Create a `VectorAssembler` by calling `VectorAssembler()` with the `inputCols` names as a list and the `outputCol` name "features".
+
+  - The list of columns should be ["month", "air_time", "carrier_fact", "dest_fact", "plane_age"].
+ 
+```python
+# Make a VectorAssembler
+vec_assembler = VectorAssembler(inputCols=["month", "air_time", "carrier_fact", "dest_fact", "plane_age"], outputCol="features")
+```
+
+## Create the pipeline
+
+You're finally ready to create a `Pipeline`!
+
+`Pipeline` is a class in the `pyspark.ml` module that combines all the `Estimators` and `Transformers` that you've already created. This lets you reuse the same modeling process over and over again by wrapping it up in one simple object. Neat, right?
+
+### Instructions
+
+- Import `Pipeline` from `pyspark.ml`.
+- Call the `Pipeline()` constructor with the keyword argument stages to create a `Pipeline` called `flights_pipe`.
+  - stages should be a list holding all the stages you want your data to go through in the pipeline. Here this is just: [dest_indexer, dest_encoder, carr_indexer, carr_encoder, vec_assembler]
+ 
+```python
+# Import Pipeline
+from pyspark.ml import Pipeline
+
+# Make the pipeline
+flights_pipe = Pipeline(stages=[dest_indexer, dest_encoder, carr_indexer, carr_encoder, vec_assembler])
+```
+
+## Test vs. Train
+
+After you've cleaned your data and gotten it ready for modeling, one of the most important steps is to split the data into a test set and a train set. After that, don't touch your test data until you think you have a good model! As you're building models and forming hypotheses, you can test them on your training data to get an idea of their performance.
+
+Once you've got your favorite model, you can see how well it predicts the new data in your test set. This never-before-seen data will give you a much more realistic idea of your model's performance in the real world when you're trying to predict or classify new data.
+
+In Spark it's important to make sure you split the data after all the transformations. This is because operations like `StringIndexer` don't always produce the same index even when given the same list of strings.
+
+## Transform the data
+
+Hooray, now you're finally ready to pass your data through the `Pipeline` you created!
+
+### Instructions
+
+- Create the DataFrame `piped_data` by calling the `Pipeline` methods `.fit()` and `.transform()` in a chain. Both of these methods take `model_data` as their only argument.
+
+```python
+# Fit and transform the data
+piped_data = flights_pipe.fit(model_data).transform(model_data)
+```
+
+## Split the data
+
+Now that you've done all your manipulations, the last step before modeling is to split the data!
+
+### Instructions
+
+- Use the DataFrame method `.randomSplit()` to split `piped_data` into two pieces, `training` with 60% of the data, and `test` with 40% of the data by passing the list `[.6, .4]` to the `.randomSplit()` method.
+
+```python
+# Split the data into training and test sets
+training, test = piped_data.randomSplit([.6, .4])
+```
+
+# Model tuning and selection
+
+In this last chapter, you'll apply what you've learned to create a model that predicts which flights will be delayed.
+
+## What is logistic regression?
+
+The model you'll be fitting in this chapter is called a logistic regression. This model is very similar to a linear regression, but instead of predicting a numeric variable, it predicts the probability (between 0 and 1) of an event.
+
+To use this as a classification algorithm, all you have to do is assign a cutoff point to these probabilities. If the predicted probability is above the cutoff point, you classify that observation as a 'yes' (in this case, the flight being late), if it's below, you classify it as a 'no'!
+
+You'll tune this model by testing different values for several hyperparameters. A hyperparameter is just a value in the model that's not estimated from the data, but rather is supplied by the user to maximize performance. For this course it's not necessary to understand the mathematics behind all of these values - what's important is that you'll try out a few different choices and pick the best one.
